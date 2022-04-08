@@ -1,0 +1,14 @@
+{% extends 'bootstrap_4_layout.html.twig' %}
+{% set errors = null %}
+{% block collection_row %}
+     
+    <div class="form-group {% if errors|length > 0 %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+         
+        <button type="button" class="add-entry btn btn-secondary"><i class="fas fa-plus"></i> Добавить</button>
+    </div>
+
+{% endblock collection_row %}
+

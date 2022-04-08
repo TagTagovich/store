@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block title %}Авторизация{% endblock %}
+
+{% block body %}
+    
+    <div class="authentication-wrapper authentication-1 px-4">
+    <div class="authentication-inner py-5">
+
+	<!-- Logo -->
+	<div class="d-flex justify-content-center align-items-center">
+	<div class="ui-w-120">
+	  <div class="text-center" style="width: 100%">
+	    
+            
+	  </div>
+	</div>
+	</div>
+	<!-- / Logo -->
+    {% if error|default(false) %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+    <form class="my-5" id="loginform" action="{{ action|default('') }}" method="POST">
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <h3 class="text-center m-b-20">Вход в систему</h3>
+        <div class="form-group ">
+            <div class="col-xs-12">
+                <input class="form-control" type="text" required="" placeholder="Логин" name="_username" value="{{ last_username|default('') }}"> </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input class="form-control" type="password" required="" placeholder="Пароль" name="_password"> </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <div class="d-flex no-block align-items-center">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1">Запомнить меня</label>
+                    </div> 
+                    <div class="ml-auto">
+                        <a href="{{ path('app_remind_password') }}" id="to-recover" class="text-muted"><i class="fas fa-lock m-r-5"></i> Забыли пароль?</a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <div class="col-xs-12 p-b-20">
+                <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Войти</button>
+            </div>
+        </div>
+    </form>
+    </div>
+  </div>
+{% endblock %}

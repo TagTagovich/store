@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Изменение пользователя #{{ user.id }}{% endblock %}
+
+{% block body %}
+    
+    <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
+        <div><a href="{{ path('user_index') }}">Пользователи</a> / Изменение пользователя #{{ user.id }}</div>
+    </h4>
+
+	<div class="card">
+		<div class="card-body">
+			{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+		</div>
+	</div>
+{% endblock %}

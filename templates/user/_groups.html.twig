@@ -1,0 +1,14 @@
+{% set groups = {
+    ROLE_USER : {
+    	name  : 'Пользователь',
+    	color : 'info'
+    },
+    
+    ROLE_MANAGER : {
+    	name  : 'Менеджер',
+    	color : 'danger'
+    }
+} %}
+{% for group in user.roles %}
+    <span class="badge badge-{{ groups[group].color }}">{{ groups[group].name }}</span>
+{% endfor %}

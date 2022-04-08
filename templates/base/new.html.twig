@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Base{% endblock %}
+{% form_theme form.places 'form/block_collection.html.twig' %}
+{% block body %}
+
+    
+    <h1>Create new Base</h1>
+
+    {{ include('base/_form.html.twig') }}
+
+    <a href="{{ path('app_base_index') }}">Назад к списку</a>
+{% block _base_type_places_entry_row %}
+    {{ dump() }}
+<div class=«item»>
+  
+<a href="#" class="btn btn-danger remove-collection-entry"><i class="fas fa-trash"></i></a>
+</div>
+
+{% endblock _base_type_places_entry_row %}
+
+{% endblock %}

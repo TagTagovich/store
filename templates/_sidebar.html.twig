@@ -1,0 +1,41 @@
+<div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-dark">
+    <!-- Brand demo (see assets/css/demo/demo.css) -->
+    <div class="app-brand demo">
+        <span class="app-brand-logo demo" style="background: #fff">
+            {% include 'icons/logo.svg.twig' %}
+        </span>
+        <a href="{# path('main') #}" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Control Panel</a>
+        <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
+        <i class="ion ion-md-menu align-middle"></i>
+        </a>
+    </div>
+    <div class="sidenav-divider mt-0"></div>
+    <!-- Links -->
+    <ul class="sidenav-inner py-1">
+    
+        {#<li class="sidenav-item">
+            <a href="{{ path('main') }}" class="sidenav-link">
+                <i class="sidenav-icon ion ion-md-home"></i>
+                <div>Главная</div>
+            </a>
+        </li>#}
+    	{#{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_PARTNER') %}#}
+    	<li class="sidenav-header small font-weight-semibold"></li>
+       {# {% for type in get_app_types() %}
+        <li class="sidenav-item">
+            <a href="{{ path('application_index_by_type', { typeCode : type.code }) }}" class="sidenav-link">
+                <i class="sidenav-icon ion ion-md-list"></i>
+                <div>{{ type.name }}</div>
+            </a>
+        </li>
+        {% endfor %}#}
+        <li class="sidenav-item">
+            <a href="{{ path('user_index') }}" class="sidenav-link">
+                <i class="sidenav-icon ion ion-md-happy"></i>
+                <div>Пользователи</div>
+            </a>
+        </li>
+        {#{% endif %}#}
+    </ul>
+</div>
+

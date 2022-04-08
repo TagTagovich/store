@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block body %}
+    <div class="authentication-wrapper authentication-1 px-4">
+    <div class="authentication-inner py-5">
+
+    <!-- Logo -->
+    <div class="d-flex justify-content-center align-items-center">
+    <div class="ui-w-120">
+      <div class="text-center" style="width: 100%">
+        
+            
+      </div>
+    </div>
+    </div>
+
+    <h3 class="text-center m-b-20">Регистрация</h3>
+
+    {{ form_start(registrationForm, {
+        'attr': {'class': 'my-5', 'id': 'loginform'}
+    }) }}
+        <div class="form-group ">
+            <div class="col-xs-12">
+        {{ form_row(registrationForm.email, {
+            'label': 'Логин',
+            'attr': {'class': 'form-control'}
+        }) }}
+        </div>
+                </div>
+        {# {{ form_row(registrationForm.username) }} #}
+        <div class="form-group ">
+            <div class="col-xs-12">
+               
+        
+        {{ form_row(registrationForm.plainPassword, {
+            'label': 'Пароль',
+            'attr': {'class': 'form-control'}
+        }) }}
+        {# {{ form_row(registrationForm.agreeTerms) }} #}
+        </div>
+            </div>
+
+                <div class="form-group text-center">
+            <div class="col-xs-12 p-b-20">
+                <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Зарегистрировать</button>
+            </div>
+        </div>
+    {{ form_end(registrationForm) }}
+</div>
+</div>
+{% endblock %}
