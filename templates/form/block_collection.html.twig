@@ -1,5 +1,6 @@
 {% extends 'bootstrap_4_layout.html.twig' %}
 {% set errors = null %}
+
 {% block collection_row %}
      
     <div class="form-group {% if errors|length > 0 %} has-error{% endif %}">
@@ -11,4 +12,13 @@
     </div>
 
 {% endblock collection_row %}
+
+{% block _base_places_entry_row %}
+<div class="item">
+       {{ form_row(form.name) }} {{ form_errors(form.name) }}
+       {{ form_row(form.width) }} {{ form_errors(form.width) }}
+        {{ form_row(form.heidht) }} {{ form_errors(form.heidht) }}
+		<a href="#" class="btn btn-danger remove-collection-entry"><i class="fas fa-trash"></i></a>
+</div>
+{% endblock %}
 

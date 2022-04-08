@@ -15,8 +15,6 @@ class PlaceType extends AbstractType
             ->add('name')
             ->add('width')
             ->add('heidht')
-            ->add('base')
-            ->add('photo')
         ;
     }
 
