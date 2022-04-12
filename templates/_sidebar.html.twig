@@ -13,29 +13,23 @@
     <!-- Links -->
     <ul class="sidenav-inner py-1">
     
-        {#<li class="sidenav-item">
-            <a href="{{ path('main') }}" class="sidenav-link">
-                <i class="sidenav-icon ion ion-md-home"></i>
-                <div>Главная</div>
-            </a>
-        </li>#}
-    	{#{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_PARTNER') %}#}
+
     	<li class="sidenav-header small font-weight-semibold"></li>
-       {# {% for type in get_app_types() %}
-        <li class="sidenav-item">
-            <a href="{{ path('application_index_by_type', { typeCode : type.code }) }}" class="sidenav-link">
-                <i class="sidenav-icon ion ion-md-list"></i>
-                <div>{{ type.name }}</div>
-            </a>
-        </li>
-        {% endfor %}#}
+
+  
         <li class="sidenav-item">
             <a href="{{ path('user_index') }}" class="sidenav-link">
-                <i class="sidenav-icon ion ion-md-happy"></i>
+                <i class="sidenav-icon ion ion-md-people "></i>
                 <div>Пользователи</div>
             </a>
         </li>
-        {#{% endif %}#}
+    
+        <li class="sidenav-item">
+            <a href="{{ path('app_base_index') }}" class="sidenav-link">
+                <i class="sidenav-icon ion ion-md-list-box"></i>
+                <div>Базы</div>
+            </a>
+        </li>
     </ul>
 </div>
 

@@ -79,12 +79,12 @@ class BaseController extends AbstractController
     /**
      * @Route("/{id}", name="app_base_delete", methods={"POST"})
      */
-    public function delete(Request $request, Base $base, BaseRepository $baseRepository): Response
+    public function delete(Request $request, Base $base): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$base->getId(), $request->request->get('_token'))) {
-            $baseRepository->remove($base);
-        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($base);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('app_base_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_base_index');
     }
 }

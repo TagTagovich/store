@@ -1,22 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Base{% endblock %}
+{% block title %}Новая база{% endblock %}
 {% form_theme form.places 'form/block_collection.html.twig' %}
 {% block body %}
 
+    <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
+        <div><a href="{{ path('user_index') }}">Базы</a> / Создание базы</div>
+    </h4>
     
-    <h1>Create new Base</h1>
-
-    {{ include('base/_form.html.twig') }}
-
-    <a href="{{ path('app_base_index') }}">Назад к списку</a>
-{% block _base_type_places_entry_row %}
-    {{ dump() }}
-<div class=«item»>
-  
-<a href="#" class="btn btn-danger remove-collection-entry"><i class="fas fa-trash"></i></a>
-</div>
-
-{% endblock _base_type_places_entry_row %}
-
+    <div class="card">
+        <div class="card-body">
+            {{ include('base/_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

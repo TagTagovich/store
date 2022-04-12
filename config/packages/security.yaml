@@ -43,6 +43,7 @@ security:
 #        - { path: ^/application_type, roles: ROLE_ADMIN }
         - { path: ^/source, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/user/new, roles: ROLE_USER }
 #        - { path: ^/trigger, roles: ROLE_ADMIN }
 #        - { path: ^/email_template, roles: ROLE_ADMIN }
 #        - { path: ^/dashboard, roles: [ROLE_ADMIN, ROLE_OPERATOR] }
@@ -56,9 +57,10 @@ security:
 #        - { path: ^/item/new, roles: [ROLE_ADMIN] }
 #        - { path: ^/item/edit, roles: [ROLE_ADMIN] }
 #        - { path: ^/item/delete, roles: [ROLE_ADMIN] }
-#        - { path: ^/base/new, roles: [ROLE_ADMIN] }
-#        - { path: ^/base/edit, roles: [ROLE_ADMIN] }
-#        - { path: ^/base/delete, roles: [ROLE_ADMIN] }
+        - { path: ^/base, roles: [ROLE_USER] }
+        - { path: ^/base/new, roles: [ROLE_USER] }
+#        - { path: ^/base/edit, roles: [ROLE_USER] }
+#        - { path: ^/base/delete, roles: [ROLE_USER] }
 #        - { path: ^/place/new, roles: [ROLE_ADMIN] }
 #        - { path: ^/place/edit, roles: [ROLE_ADMIN] }
 #        - { path: ^/place/delete, roles: [ROLE_ADMIN] }   

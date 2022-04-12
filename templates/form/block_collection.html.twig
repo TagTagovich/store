@@ -1,14 +1,24 @@
 {% extends 'bootstrap_4_layout.html.twig' %}
 {% set errors = null %}
 {% block collection_row %}
-     
     <div class="form-group {% if errors|length > 0 %} has-error{% endif %}">
         {{- form_label(form) -}}
         {{- form_widget(form) -}}
         {{- form_errors(form) -}}
-         
-        <button type="button" class="add-entry btn btn-secondary"><i class="fas fa-plus"></i> Добавить</button>
+        <button type="button" class="add-entry btn btn-secondary" style=""><i class="fas fa-plus"></i> Добавить</button>
     </div>
-
 {% endblock collection_row %}
+
+{% block _base_places_entry_row %}
+<div class="item">
+        <label for="place_name" class="required">Наименование</label>
+        {{ form_widget(form.name) }} {{ form_errors(form.name) }}
+        <label for="place_width" class="required">Ширина</label>
+        {{ form_widget(form.width) }} {{ form_errors(form.width) }}
+        <label for="place_height" class="required">Высота</label>
+        {{ form_widget(form.height) }} {{ form_errors(form.height) }}
+        <a href="#" class="btn btn-danger remove-collection-entry"><i class="fas fa-trash"></i> Удалить</a>
+</div>
+{% endblock %}
+
 

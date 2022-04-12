@@ -31,7 +31,7 @@ class Place
     /**
      * @ORM\Column(type="integer")
      */
-    private $heidht;
+    private $height;
 
     /**
      * @ORM\ManyToOne(targetEntity=Base::class, inversedBy="places")
@@ -72,14 +72,14 @@ class Place
         return $this;
     }
 
-    public function getHeidht(): ?int
+    public function getHeight(): ?int
     {
-        return $this->heidht;
+        return $this->height;
     }
 
-    public function setHeidht(int $heidht): self
+    public function setHeight(int $height): self
     {
-        $this->heidht = $heidht;
+        $this->height = $height;
 
         return $this;
     }

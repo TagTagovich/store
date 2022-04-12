@@ -31,7 +31,7 @@ class Base
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity=Place::class, mappedBy="base", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Place::class, mappedBy="base", orphanRemoval=true, cascade={"persist"}) 
      */
     private $places;
 

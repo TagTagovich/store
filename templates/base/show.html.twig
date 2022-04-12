@@ -1,30 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Base{% endblock %}
+{% block title %}База #{{ base.id }}{% endblock %}
 
 {% block body %}
-    <h1>Base</h1>
+    <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
+        <div><a href="{{ path('app_base_index') }}">Базы</a> / База #{{ base.id }}</div>
+    </h4>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ base.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ base.name }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ base.price }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_base_index') }}">back to list</a>
-
-    <a href="{{ path('app_base_edit', {'id': base.id}) }}">edit</a>
-
-    {{ include('base/_delete_form.html.twig') }}
+    <div class="card mb-3 mt-3">
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ base.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Наименование</th>
+                        <td>{{ base.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Цена</th>
+                        <td>{{ base.price }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="btn btn-primary" href="{{ path('app_base_edit', {'id': base.id}) }}" style="max-width: 200px">Изменить</a>
+            <a class="btn btn-danger" href="{{ path('app_base_delete', {'id': base.id}) }}"><i class="fa fa-times"></i> Удалить</a>
+            <a class="btn btn-default" href="{{ path('app_base_index') }}">Отмена</a>
+        </div>
+    </div>
 {% endblock %}

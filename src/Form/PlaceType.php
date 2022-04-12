@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Place;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlaceType extends AbstractType
@@ -12,11 +13,9 @@ class PlaceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('width')
-            ->add('heidht')
-            ->add('base')
-            ->add('photo')
+            ->add('name', TextType::class, ['label' => 'Наименование'])
+            ->add('width', TextType::class, ['label' => 'Ширина'])
+            ->add('height', TextType::class, ['label' => 'Высота'])
         ;
     }
 
