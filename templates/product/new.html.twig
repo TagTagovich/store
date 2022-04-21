@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Новый товар{% endblock %}
+{% form_theme form.sources 'form/block_collection.html.twig' %} 
+{% block body %}
+    <h1>Создать новый товар</h1>
+
+    {{ include('product/_form.html.twig') }}
+
+{% endblock %}

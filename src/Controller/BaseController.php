@@ -7,6 +7,7 @@ use App\Form\BaseType;
 use App\Entity\Place;
 use App\Form\PlaceType;
 use App\Repository\BaseRepository;
+use App\Repository\PlaceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,10 +51,11 @@ class BaseController extends AbstractController
     /**
      * @Route("/{id}", name="app_base_show", methods={"GET"})
      */
-    public function show(Base $base): Response
+    public function show(Base $base, PlaceRepository $placeRepository): Response
     {
         return $this->render('base/show.html.twig', [
             'base' => $base,
+            'places' => $placeRepository->findBy(['base' => $base])
         ]);
     }
 
@@ -77,7 +79,7 @@ class BaseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_base_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="app_base_delete")
      */
     public function delete(Request $request, Base $base): Response
     {

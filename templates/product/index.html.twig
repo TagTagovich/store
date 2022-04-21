@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Список товаров{% endblock %}
+
+{% block body %}
+    <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
+        <div>Товары</div>
+        
+            <div class="dropdown">
+                <button class="btn btn-primary rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Создать товар
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for base in baseList %}
+                <a class="dropdown-item" href="{{ path('app_product_new', {baseId: base.id}) }}">{{ base }}</a>
+                {% endfor %}
+                </div>
+            </div>
+    </h4>
+
+    <div class="card">
+        <div class="card-datatable table-responsive">
+        <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Наименование</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td align="right">
+                            <a class="btn btn-info" href="{{ path('app_product_show', {'id': product.id}) }}" title="Посмотреть"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-success" href="{{ path('app_product_edit', {'id': product.id}) }}" title="Изменить"><i class="fa fa-pencil-alt"></i></a>
+                            <a class="btn btn-danger" href="{{ path('app_product_delete', {'id': product.id}) }}" title="Удалить"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">пусто</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+    </table>
+        </div>
+    </div>
+{% endblock %}

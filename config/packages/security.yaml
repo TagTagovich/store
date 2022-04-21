@@ -51,6 +51,7 @@ security:
 #        - { path: ^/order/new, roles: [ROLE_ADMIN] }
 #        - { path: ^/order/edit, roles: [ROLE_ADMIN] }
 #        - { path: ^/order/delete, roles: [ROLE_ADMIN] }
+        - { path: ^/product, roles: [ROLE_USER] }
 #        - { path: ^/product/new, roles: [ROLE_ADMIN] }
 #        - { path: ^/product/edit, roles: [ROLE_ADMIN] }
 #        - { path: ^/product/delete, roles: [ROLE_ADMIN] }

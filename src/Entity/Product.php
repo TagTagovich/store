@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,7 +27,12 @@ class Product
     private $name;
     
     /**
-     * @ORM\OneToMany(targetEntity=Source::class, mappedBy="product")
+     * @ORM\OneToMany(targetEntity=Source::class, mappedBy="product", orphanRemoval=true, cascade={"persist"})
+     * @ORM\JoinTable(name="product_source",
+     *  joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="source_id", referencedColumnName="id", unique=true)}
+     * )
+     *  
      */
     private $sources;
     
@@ -97,5 +103,12 @@ class Product
         }
 
         return $this;
+    }
+
+
+    public function __toString()
+    {
+    
+        return $this->getName();
     }
 }

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Товар #{{ product.id }}{% endblock %}
+
+{% block body %}
+
+    <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
+        <div><a href="{{ path('app_product_index') }}">Товары</a> / Товар #{{ product.id }}</div>
+    </h4>
+    <div class="card mb-3 mt-3">
+        <div class="card-body">
+            <table id="myTbl" class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row"><p class="text-dark">Id</p></th>
+                        <td ><p class="text-dark">{{ product.id }}</p></td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><p class="text-dark">Наименование</p></th>
+                        <td ><p class="text-dark">{{ product.name }}</p></td>
+                    </tr>          
+                </tbody>
+            </table>
+                    <table class="table table-striped">
+                <tbody>
+         
+                </tbody>
+            </table>
+            <a class="btn btn-primary" href="{{ path('app_product_edit', {'id': product.id}) }}" style="max-width: 200px">Изменить</a>
+            <a class="btn btn-danger" href="{{ path('app_product_delete', {'id': product.id}) }}"><i class="fa fa-times"></i> Удалить</a>
+            <a class="btn btn-default" href="{{ path('app_product_index') }}">Отмена</a>
+        </div>
+    </div>
+{% endblock %}

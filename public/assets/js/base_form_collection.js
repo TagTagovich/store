@@ -3,7 +3,7 @@ $(document).ready(function(){
     $('.add-entry').click(function(){
         var $collection = $(this).prev('[data-prototype]');
         $collection.show();
-        var index = $collection.data('index') || 0;
+        var index = $collection.find('.item').length || 0;
         var prototype = $collection.data('prototype');
         var $newForm = $(prototype.replace(/__name__/g, index));
         $newForm.find('legend').remove();
@@ -21,5 +21,11 @@ $(document).ready(function(){
         if(!$container.find('.item').length) $container.hide();
         return false;
     });
+
+    $('legend.col-form-label required').show(1000, function(){
+  setTimeout(function(){
+    $('legend.col-form-label required').hide(500);
+  }, 5000);
+});
 
 });

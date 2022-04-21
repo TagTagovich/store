@@ -3,26 +3,54 @@
 {% block title %}База #{{ base.id }}{% endblock %}
 
 {% block body %}
+
     <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
         <div><a href="{{ path('app_base_index') }}">Базы</a> / База #{{ base.id }}</div>
     </h4>
-
     <div class="card mb-3 mt-3">
         <div class="card-body">
-            <table class="table">
+            <table id="myTbl" class="table table-bordered">
                 <tbody>
                     <tr>
-                        <th>Id</th>
-                        <td>{{ base.id }}</td>
+                        <th scope="row"><p class="text-dark">Id</p></th>
+                        <td ><p class="text-dark">{{ base.id }}</p></td>
                     </tr>
                     <tr>
-                        <th>Наименование</th>
-                        <td>{{ base.name }}</td>
+                        <th scope="row"><p class="text-dark">Наименование</p></th>
+                        <td ><p class="text-dark">{{ base.name }}</p></td>
                     </tr>
                     <tr>
-                        <th>Цена</th>
-                        <td>{{ base.price }}</td>
+                        <th scope="row"><p class="text-dark">Цена</p></th>
+                        <td><p class="text-dark">{{ base.price }}</p></td>
                     </tr>
+                    <h3>Области</h3>            
+                   
+                </tbody>
+            </table>
+                    <table class="table table-striped">
+                <tbody>
+                    {% for place in places %}
+                    
+                    <tr>
+                        <th><p class="text-dark">Наименование области</p></th>
+                        <td><p class="text-dark">{{ place.name }}</p></td>
+                    </tr>
+                    <tr>
+                        <th>Ширина области</th>
+                        <td>{{ place.width }}</td>
+                    </tr>
+                    <tr>
+                        <th>Высота области</th>
+                        <td>{{ place.height }}</td>
+                    </tr>
+                    <tr>
+                        <th>Фотография</th>
+                        <td><img class="card-img-top" src="{{ vich_uploader_asset(place, 'image', 'App\\Entity\\Place') }}" alt="{{ place.name }}" style="max-width: 200px">   
+                        </td>
+                    </tr>
+                
+           
+                    {% endfor %}
                 </tbody>
             </table>
             <a class="btn btn-primary" href="{{ path('app_base_edit', {'id': base.id}) }}" style="max-width: 200px">Изменить</a>

@@ -1,24 +1,38 @@
 {% extends 'bootstrap_4_layout.html.twig' %}
-{% set errors = null %}
 {% block collection_row %}
-    <div class="form-group {% if errors|length > 0 %} has-error{% endif %}">
+{% set route = app.request.attributes.get('_route') %}    
+    <div class="form-group">
         {{- form_label(form) -}}
         {{- form_widget(form) -}}
         {{- form_errors(form) -}}
+        {% if route == "app_base_new" or route == "app_base_edit" %}
         <button type="button" class="add-entry btn btn-secondary" style=""><i class="fas fa-plus"></i> Добавить</button>
+        {% endif %}
     </div>
 {% endblock collection_row %}
 
 {% block _base_places_entry_row %}
+{% set route = app.request.attributes.get('_route') %}
 <div class="item">
-        <label for="place_name" class="required">Наименование</label>
-        {{ form_widget(form.name) }} {{ form_errors(form.name) }}
-        <label for="place_width" class="required">Ширина</label>
-        {{ form_widget(form.width) }} {{ form_errors(form.width) }}
-        <label for="place_height" class="required">Высота</label>
-        {{ form_widget(form.height) }} {{ form_errors(form.height) }}
+        {% if route == "app_base_new" or route == "app_base_edit" %}
+           <label for="place_name" class="required">Наименование области</label>
+           {{ form_widget(form.name) }} {{ form_errors(form.name) }}
+           <label for="place_width" class="required">Ширина</label>
+           {{ form_widget(form.width) }} {{ form_errors(form.width) }}
+           <label for="place_height" class="required">Высота</label>
+           {{ form_widget(form.height) }} {{ form_errors(form.height) }}
+           <label for="place_image" class="required">Фото</label>
+           {{ form_widget(form.image) }} {{ form_errors(form.image) }}
+        
         <a href="#" class="btn btn-danger remove-collection-entry"><i class="fas fa-trash"></i> Удалить</a>
+        {% endif %}
+        {% if route == "app_product_new" or route == "app_product_edit" %}
+           <label for="source_name" class="required">Файл</label>
+           {{ form_widget(form.file) }} {{ form_errors(form.file) }}
+        {% endif %}
 </div>
 {% endblock %}
+
+
 
 
