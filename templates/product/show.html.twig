@@ -18,17 +18,32 @@
                     <tr>
                         <th scope="row"><p class="text-dark">Наименование</p></th>
                         <td ><p class="text-dark">{{ product.name }}</p></td>
-                    </tr>          
+                    </tr>
+                    <h3>Макеты</h3>            
+                   
                 </tbody>
             </table>
                     <table class="table table-striped">
                 <tbody>
-         
+                    {% for source in sources %}
+                    
+                    <tr>
+                        <th><p class="text-dark">Наименование файла</p></th>
+                        <td><p class="text-dark">{{ source.fileName }}</p></td>
+                    </tr>
+                    <tr>
+                        <th>Файл</th>
+                        <td><img class="card-img-top" src="{{ vich_uploader_asset(source, 'file', 'App\\Entity\\Source') }}" alt="{{ source.fileName }}" style="max-width: 200px">   
+                        </td>
+                    </tr>
+                
+           
+                    {% endfor %}
                 </tbody>
             </table>
-            <a class="btn btn-primary" href="{{ path('app_product_edit', {'id': product.id}) }}" style="max-width: 200px">Изменить</a>
-            <a class="btn btn-danger" href="{{ path('app_product_delete', {'id': product.id}) }}"><i class="fa fa-times"></i> Удалить</a>
-            <a class="btn btn-default" href="{{ path('app_product_index') }}">Отмена</a>
+            <a class="btn btn-primary" href="{{ path('app_base_edit', {'id': product.id}) }}" style="max-width: 200px">Изменить</a>
+            <a class="btn btn-danger" href="{{ path('app_base_delete', {'id': product.id}) }}"><i class="fa fa-times"></i> Удалить</a>
+            <a class="btn btn-default" href="{{ path('app_base_index') }}">Отмена</a>
         </div>
     </div>
 {% endblock %}

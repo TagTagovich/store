@@ -51,7 +51,7 @@ class SecurityController extends AbstractController
         $user = $this->getUser();
         
         if(!$user){
-	        throw new AccessDeniedException('Access denied!');
+	        throw new AccessDeniedException('В доступе отказано!');
         }
         
         $form = $this->createForm(ChangePasswordFormType::class);
@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
 	        $user->setPassword($this->passwordEncoder->encodePassword($user, $form->getData()['password']));
 	        $em->persist($user);
 	        $em->flush();
-	        return new RedirectResponse('/');
+	        return new RedirectResponse('/user');
 	    }
         
         return $this->render('security/changePassword.html.twig', [

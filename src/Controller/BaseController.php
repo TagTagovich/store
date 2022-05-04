@@ -21,10 +21,16 @@ class BaseController extends AbstractController
     /**
      * @Route("/", name="app_base_index", methods={"GET"})
      */
-    public function index(BaseRepository $baseRepository): Response
+    public function index(Request $request, BaseRepository $baseRepository): Response
     {
+        $qb = $baseRepository->createQueryBuilder('b');
+
+        if($request->query->get('q')){
+            $qb->andWhere('b.name like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
+        }
+        
         return $this->render('base/index.html.twig', [
-            'bases' => $baseRepository->findAll(),
+            'bases' => $qb->getQuery()->getResult()
         ]);
     }
 

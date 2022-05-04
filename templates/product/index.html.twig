@@ -7,7 +7,7 @@
         <div>Товары</div>
         
             <div class="dropdown">
-                <button class="btn btn-primary rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Создать товар
+                <button class="btn btn-primary btn-lg rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Создать товар
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {% for base in baseList %}
@@ -17,6 +17,38 @@
             </div>
     </h4>
 
+    <form class="justify-content-between">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" name="q" id="search" class="form-control" value="{{ app.request.get('q') }}" placeholder="Поиск" style="max-width: 200px">
+                <span class="input-group-append">
+                    <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> Найти</button>
+                    {% if app.request.get('q') %}
+                    <a class="btn btn-warning" href="{{ path('app_product_index') }}">Очистить</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </form>
+
+    <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
+    <div>Поиск по базе</div>
+    </h4>
+    <form class="justify-content-between">
+        <div class="form-group">
+            <div class="input-group">
+            <select id="base_product" class="form-control" name="base" style="max-width: 200px">
+                <option value="">--Все базы--</option>
+                {% for base in baseList %}
+                <option value="{{ base.id }}">{{ base }}</option>
+                {% endfor %}
+            </select>
+        <button class="btn btn-block btn-primary btn-rounded" type="submit" style="max-width: 200px">Фильтровать</button>
+        </div>
+        </div>
+    </form>
+
+
     <div class="card">
         <div class="card-datatable table-responsive">
         <table class="table table-hover">
@@ -24,27 +56,55 @@
             <tr>
                 <th>Id</th>
                 <th>Наименование</th>
-                <th>Действия</th>
+                <th></th>
             </tr>
         </thead>
                 <tbody>
+                {% if productByBases is empty %}
+                <tr>
+                    <td colspan="6">Пусто</td>
+                </tr>
+                {% elseif app.request.get('base') %}
+                {% for productByBase in productByBases %}
+                    <tr>
+                        <td>{{ productByBase.id }}</td>
+                        <td>{{ productByBase.name }}</td>
+                        
+                        <td align="right">
+                            <a class="btn btn-info" href="{{ path('app_product_show', {'id': productByBase.id}) }}" title="Посмотреть"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-success" href="{{ path('app_product_edit', {'id': productByBase.id}) }}" title="Изменить"><i class="fa fa-pencil-alt"></i></a>
+                            <a class="btn btn-danger" href="{{ path('app_product_delete', {'id': productByBase.id}) }}" title="Удалить"><i class="fa fa-times"></i></a>
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+                {% endif %}
+                {% if app.request.get('base') == null %}
                 {% for product in products %}
                     <tr>
                         <td>{{ product.id }}</td>
                         <td>{{ product.name }}</td>
+                        
                         <td align="right">
                             <a class="btn btn-info" href="{{ path('app_product_show', {'id': product.id}) }}" title="Посмотреть"><i class="fa fa-eye"></i></a>
                             <a class="btn btn-success" href="{{ path('app_product_edit', {'id': product.id}) }}" title="Изменить"><i class="fa fa-pencil-alt"></i></a>
                             <a class="btn btn-danger" href="{{ path('app_product_delete', {'id': product.id}) }}" title="Удалить"><i class="fa fa-times"></i></a>
                         </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="6">пусто</td>
-                    </tr>
+                    </tr>    
                 {% endfor %}
-                </tbody>
-    </table>
+                {% endif %}                
+                </tbody>       
+            </table>
         </div>
     </div>
 {% endblock %}
+                
+
+
+
+
+                
+
+
+                
+

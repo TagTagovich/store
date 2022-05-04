@@ -1,10 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Новый товар{% endblock %}
-{% form_theme form.sources 'form/block_collection.html.twig' %} 
+{% form_theme form.sources 'form/block_collection.html.twig' %}
 {% block body %}
     <h1>Создать новый товар</h1>
 
     {{ include('product/_form.html.twig') }}
+    
+    {% set indexOpt = 0 %}
+    {% for source in form.sources %}
+    <label class="custom-place-label" id="{{ indexOpt }}">{{ source.vars.data.place.name }}</label>
+    {% set indexOpt = indexOpt + 1%}
+    {% endfor %}
 
 {% endblock %}
+
+   
+

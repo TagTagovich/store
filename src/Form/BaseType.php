@@ -15,7 +15,7 @@ class BaseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'Наименование товара'])
+            ->add('name', TextType::class, ['label' => 'Наименование базы'])
             ->add('price', TextType::class, ['label' => 'Цена'])
             ->add('places', CollectionType::class, [
              'label' => false,

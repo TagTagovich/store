@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Vich\Uploadable
@@ -23,16 +26,19 @@ class Place
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message = "Поле не может быть пустым!")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message = "Поле не может быть пустым!")
      */
     private $width;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message = "Поле не может быть пустым!")
      */
     private $height;
 
@@ -56,8 +62,21 @@ class Place
      * @Vich\UploadableField(mapping="place_image", fileNameProperty="imageFilename")
      *
      * @var File
+     * 
+     * @Assert\NotBlank(message = "Поле не может быть пустым!")
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Source::class, mappedBy="place") 
+     *  
+     */
+    private $sources;
+
+    public function __construct()
+    {
+        $this->sources = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -160,6 +179,36 @@ class Place
     public function setPhoto(?Photo $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Source>
+     */
+    public function getSources(): Collection
+    {
+        return $this->sources;
+    }
+
+    public function addSource(Source $source): self
+    {
+        if (!$this->sources->contains($source)) {
+            $this->sources[] = $source;
+            $source->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSource(Source $source): self
+    {
+        if ($this->sources->removeElement($source)) {
+            // set the owning side to null (unless already changed)
+            if ($source->getPlace() === $this) {
+                $source->setPlace(null);
+            }
+        }
 
         return $this;
     }

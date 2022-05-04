@@ -17,11 +17,17 @@ class ChangePasswordFormType extends AbstractType
             ->add('password', PasswordType::class, [
                 'required' => true,
                 'label' => 'Пароль',
-                'attr' => ['class' => 'form-control']
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Введите новый пароль'
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Сменить пароль',
-                'attr' => ['class' => 'btn btn-block btn-lg btn-info btn-rounded']
+                'attr' => [
+                    'class' => 'btn btn-block btn-lg btn-primary btn-rounded',
+                    
+                ]
             ])
         ;
     }

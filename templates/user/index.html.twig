@@ -5,14 +5,15 @@
     <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
         <div>Пользователи</div>
         
-    	<a class="btn btn-primary rounded-pill d-block" href="{{ path('user_new') }}"><i class="fa fa-plus"></i> Создать пользователя</a>
+    	<a class="btn btn-primary btn-lg rounded-pill d-block" href="{{ path('user_new') }}"><i class="fa fa-plus"></i> Создать пользователя</a>
     </h4>
+
 	<form class="justify-content-between">
 		<div class="form-group">
 			<div class="input-group">
 				<input type="text" id="search" name="q" class="form-control" value="{{ app.request.query.get('q') }}" placeholder="Поиск" style="max-width: 200px">
 				<span class="input-group-append">
-	                <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i> Найти</button>
+	                <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> Найти</button>
 	                {% if app.request.query.get('q') %}
 	                <a class="btn btn-warning" href="{{ path('user_index') }}">Очистить</a>
 	                {% endif %}
@@ -20,23 +21,21 @@
 			</div>
 		</div>
 	</form>
-	
-<div class="card mb-3 mt-3">
-    <div class="card-body">
+
+ 
 	    <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
-        <div>Фильтры</div>
+        <div>Поиск по email</div>
         </h4>
-	    <form>
+	    <form class="justify-content-between">
 	    <div class="form-group">
-		    <label class="" for="user_email">Email</label>
+	    	<div class="input-group">
 		    <select id="user_email" name="email" class="form-control" style="max-width: 200px">
-            	<option value=""></option>
+            	<option value="">--Все пользователи--</option>
             	{% for user in filterList %}
             	<option value="{{ user.id }}">{{ user }}</option>
             	{% endfor %}
 			</select>
-		</div>
-		<button class="btn btn-block btn-lg btn-info btn-rounded" type="submit"  style="max-width: 200px">Фильтровать</button>
+		<button class="btn btn-block btn-primary btn-rounded" type="submit"  style="max-width: 200px">Фильтровать</button>
 	    </form>
     </div>
 </div>
@@ -46,7 +45,7 @@
 		    <table class="table table-hover">
 		        <thead>
 		            <tr>
-		                <th>#</th>
+		                <th>Id</th>
 		                <th>Email</th>
 		                <th>Роли</th>
 		                <th></th>

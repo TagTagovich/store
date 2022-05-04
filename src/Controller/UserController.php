@@ -27,16 +27,22 @@ class UserController extends AbstractController
     public function index(Request $request, UserRepository $userRepository): Response
     {
 	    $qb = $userRepository->createQueryBuilder('u');
+        
 	    
 	    if($emailId = $request->query->get('email')){
 		    $qb
-		    	->join('u.email', 'e')
-		    	->where('e.id = :email')
-		    		->setParameter('email', $emailId);
+		    	->select('u')
+		    	->where('u.id = :email')
+		    	->setParameter('email', $emailId);
 	    }
+
+        if($request->query->get('q')){
+            $qb->andWhere('u.email like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
+        }
         
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            
+            'users' => $qb->getQuery()->getResult(),
             'filterList' => $userRepository->findAll()
         ]);
     }

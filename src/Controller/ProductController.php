@@ -8,6 +8,7 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\BaseRepository;
 use App\Repository\SourceRepository;
+use App\Repository\PlaceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,12 +22,38 @@ class ProductController extends AbstractController
     /**
      * @Route("/", name="app_product_index", methods={"GET"})
      */
-    public function index(ProductRepository $productRepository, BaseRepository $baseRepository): Response
+    public function index(Request $request, ProductRepository $productRepository, BaseRepository $baseRepository, PlaceRepository $placeRepository, SourceRepository $sourceRepository): Response
     {
         
+        $qbProduct = $productRepository->createQueryBuilder('p');
+        $qbBase = $placeRepository->createQueryBuilder('p');
+
+        if($baseId = $request->query->get('base')){
+            $qbBase
+                ->join('p.id', 'p')
+                ->where('p.id = :name')
+                ->setParameter('name', $baseId);
+        }
+
+        if($baseIdOne = $request->query->get('base')){
+            $productQuery = $productRepository->createQueryBuilder('p');
+              $productQuery  
+                ->join('p.sources', 's')
+                ->join('s.place', 'pl')
+                ->join('pl.base', 'b')
+                ->where('b.id = :baseId')->setParameter('baseId', $baseIdOne);
+               
+        $productByBase = $productQuery->getQuery()->getResult();    
+
+        } else { $productByBase = null; }
+
+        if($request->query->get('q')){
+            $qbProduct->andWhere('p.name like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
+        }
 
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'productByBases' => $productByBase,
+            'products' => $qbProduct->getQuery()->getResult(),
             'baseList' => $baseRepository->findAll()
         ]);
     }
@@ -34,8 +61,24 @@ class ProductController extends AbstractController
     /**
      * @Route("/new/{baseId}", name="app_product_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ProductRepository $productRepository, BaseRepository $baseRepository, int $baseId): Response
+    public function new(Request $request, ProductRepository $productRepository, BaseRepository $baseRepository, PlaceRepository $placeRepository, int $baseId): Response
     {
+        $qbBase = $placeRepository->createQueryBuilder('p');
+
+        if($baseId){
+            $qbBase
+                ->select('p.name')
+                ->where('p.base = :id')
+                ->setParameter('id', $baseId);
+        }
+
+        $placesNames = [];
+        foreach($qbBase->getQuery()->getResult() as $value){
+            
+            $placesNames[] = $value['name'];
+            
+        }
+
         $product = new Product();
         $base = $baseRepository->find($baseId);
         foreach($base->getPlaces() as $place){
@@ -46,6 +89,7 @@ class ProductController extends AbstractController
         }
         
         $form = $this->createForm(ProductType::class, $product);
+        $formTwo = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,6 +101,7 @@ class ProductController extends AbstractController
         }
         
         return $this->renderForm('product/new.html.twig', [
+            'placeNames' => $placesNames,
             'product' => $product,
             'form' => $form,
             

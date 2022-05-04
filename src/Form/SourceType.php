@@ -14,14 +14,14 @@ class SourceType extends AbstractType
     {
         $builder
             ->add('file', VichFileType::class, [
-            'label' => 'Файл',
+            'label' => '',
             'required' => false,
             'allow_delete' => true,
             'download_label' => 'Скачать файл',
             'allow_delete' => false,
             'delete_label' => 'Удалить файл',
             'asset_helper' => false,
-        ]);
+            ]);
             
         
     }

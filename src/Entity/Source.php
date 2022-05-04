@@ -6,6 +6,7 @@ use App\Repository\SourceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SourceRepository::class)
@@ -28,6 +29,7 @@ class Source
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $fileName;
 
@@ -35,6 +37,9 @@ class Source
      * @Vich\UploadableField(mapping="source_file", fileNameProperty="fileName")
      *
      * @var File
+     *
+     * @Assert\NotBlank(message = "Поле файл не может быть пустым!")
+     * 
      */
     private $file;
 
@@ -45,7 +50,7 @@ class Source
     private $product;
     
     /**
-     * @ORM\OneToOne(targetEntity=Place::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Place::class)
      * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
      */
     private $place;
@@ -117,6 +122,19 @@ class Source
         $this->fileName = $fileName;
 
         return $this;
+    }
+
+
+
+    public function __toString()
+    {
+        if(is_null($this->getFileName())) {
+        
+        return 'NULL';
+        
+        }
+        
+        return $this->getFileName();
     }
 
 }

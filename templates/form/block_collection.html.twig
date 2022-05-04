@@ -15,6 +15,7 @@
 {% set route = app.request.attributes.get('_route') %}
 <div class="item">
         {% if route == "app_base_new" or route == "app_base_edit" %}
+           
            <label for="place_name" class="required">Наименование области</label>
            {{ form_widget(form.name) }} {{ form_errors(form.name) }}
            <label for="place_width" class="required">Ширина</label>
@@ -25,13 +26,21 @@
            {{ form_widget(form.image) }} {{ form_errors(form.image) }}
         
         <a href="#" class="btn btn-danger remove-collection-entry"><i class="fas fa-trash"></i> Удалить</a>
+        </div>
         {% endif %}
-        {% if route == "app_product_new" or route == "app_product_edit" %}
-           <label for="source_name" class="required">Файл</label>
-           {{ form_widget(form.file) }} {{ form_errors(form.file) }}
-        {% endif %}
+{% endblock %}
+
+{% block _product_sources_entry_row %}
+<div class="item">
+    {{ form_label(form.file, '', {'label_attr': {'class': 'custom-label'}}) }} {{ form_errors(form.file) }}
+    {{ form_widget(form.file) }} 
 </div>
 {% endblock %}
+
+
+
+
+
 
 
 

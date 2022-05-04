@@ -16,16 +16,14 @@
     </div>
     </div>
 
-    <h3 class="text-center m-b-20">Регистрация</h3>
-
+    
     {{ form_start(registrationForm, {
-        'attr': {'class': 'my-5', 'id': 'loginform'}
-    }) }}
+        'attr': {'class': 'my-5', 'id': 'loginform'}}) }}
+    <h3 class="text-center m-b-20">Регистрация</h3>
         <div class="form-group ">
             <div class="col-xs-12">
         {{ form_row(registrationForm.email, {
-            'label': 'Логин',
-            'attr': {'class': 'form-control'}
+            'attr': {'class': 'form-control', 'placeholder': 'Логин'}
         }) }}
         </div>
                 </div>
@@ -35,8 +33,7 @@
                
         
         {{ form_row(registrationForm.plainPassword, {
-            'label': 'Пароль',
-            'attr': {'class': 'form-control'}
+            'attr': {'class': 'form-control', 'placeholder': 'Пароль'}
         }) }}
         {# {{ form_row(registrationForm.agreeTerms) }} #}
         </div>
@@ -44,7 +41,7 @@
 
                 <div class="form-group text-center">
             <div class="col-xs-12 p-b-20">
-                <button class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Зарегистрировать</button>
+                <button class="btn btn-block btn-lg btn-success btn-rounded" type="submit">Зарегистрировать</button>
             </div>
         </div>
     {{ form_end(registrationForm) }}

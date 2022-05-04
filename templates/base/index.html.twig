@@ -6,8 +6,22 @@
     <h4 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
         <div>Базы</div>
         
-        <a class="btn btn-primary rounded-pill d-block" href="{{ path('app_base_new') }}"><i class="fa fa-plus"></i> Создать базу</a>
+        <a class="btn btn-primary btn-lg rounded-pill d-block" href="{{ path('app_base_new') }}"><i class="fa fa-plus"></i> Создать базу</a>
     </h4>
+
+    <form class="justify-content-between">
+        <div class="form-group">
+            <div class="input-group">
+             <input type="text" name="q" id="search" class="form-control" value="{{ app.request.get('q') }}" placeholder="Поиск" style="max-width: 200px">
+             <span class="input-group-append">
+                <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i> Найти</button>
+                {% if app.request.get('q') %}
+                <a class="btn btn-warning" href="{{ path('app_base_index') }}">Очистить</a>
+                {% endif %}
+             </span>   
+            </div>
+        </div>
+    </form>
 
     <div class="card">
         <div class="card-datatable table-responsive">

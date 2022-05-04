@@ -29,10 +29,12 @@ class RegistrationFormType extends AbstractType
             ])*/
             ->add('email', EmailType::class, [
                 'required' => true,
-                'attr' => ['class' => 'form-control']]) 
+                'attr' => ['class' => 'form-control'],
+                'label' => false]) 
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => false,
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password', 'class' => 'form-control'],
                 'constraints' => [

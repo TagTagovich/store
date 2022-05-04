@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\NotBl;
 
 class UserType extends AbstractType
 {
@@ -17,7 +19,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, ['attr' => ['class' => 'form-control'], 'label' => 'Электронная почта'])
-            ->add('roles', ChoiceType::class, [
+            /*->add('roles', ChoiceType::class, [
             	'choices' => [
 		            'Пользователь' => 'ROLE_USER'
 	            ],
@@ -25,7 +27,7 @@ class UserType extends AbstractType
                 'label' => 'Роль',
                 'multiple' => true,
 		        'expanded' => true
-	        ])
+	        ])*/
             ->add('plainPassword', PasswordType::class, ['attr' => ['class' => 'form-control'], 'label' => 'Пароль'])
         ;
     }

@@ -23,21 +23,20 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message = "Поле не может быть пустым!")
      */
     private $name;
     
     /**
-     * @ORM\OneToMany(targetEntity=Source::class, mappedBy="product", orphanRemoval=true, cascade={"persist"})
-     * @ORM\JoinTable(name="product_source",
-     *  joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="source_id", referencedColumnName="id", unique=true)}
-     * )
+     * @ORM\OneToMany(targetEntity=Source::class, mappedBy="product", cascade={"persist", "remove"})
+     * @Assert\Valid()
      *  
      */
     private $sources;
     
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="products")
+     * 
      */
     private $author;
 

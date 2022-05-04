@@ -20,7 +20,6 @@ class ProductType extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Наименование товара'])
             ->add('sources', CollectionType::class, [
-             'label' => false,
              'entry_type' => SourceType::class,
              'allow_add'  => true,
              'allow_delete'  => true,

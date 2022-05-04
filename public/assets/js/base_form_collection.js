@@ -22,10 +22,4 @@ $(document).ready(function(){
         return false;
     });
 
-    $('legend.col-form-label required').show(1000, function(){
-  setTimeout(function(){
-    $('legend.col-form-label required').hide(500);
-  }, 5000);
-});
-
 });
