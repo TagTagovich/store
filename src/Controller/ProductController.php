@@ -4,8 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\Source;
+use App\Entity\Photo;
+use App\Entity\Order;
 use App\Form\ProductType;
+use App\Service\ImportYML;
 use App\Repository\ProductRepository;
+use App\Repository\OrderRepository;
 use App\Repository\BaseRepository;
 use App\Repository\SourceRepository;
 use App\Repository\PlaceRepository;
@@ -19,6 +23,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductController extends AbstractController
 {
+    private $serviceImportYML;
+
+    public function __construct(ImportYML $serviceImportYML)
+    {
+        $this->serviceImportYML = $serviceImportYML;
+    }
+    
+
     /**
      * @Route("/", name="app_product_index", methods={"GET"})
      */
@@ -50,11 +62,11 @@ class ProductController extends AbstractController
         if($request->query->get('q')){
             $qbProduct->andWhere('p.name like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
         }
-
+        $opt = $this->serviceImportYML->create();
         return $this->render('product/index.html.twig', [
             'productByBases' => $productByBase,
             'products' => $qbProduct->getQuery()->getResult(),
-            'baseList' => $baseRepository->findAll()
+            'baseList' => $baseRepository->findByStatus("ready")
         ]);
     }
 
@@ -80,13 +92,20 @@ class ProductController extends AbstractController
         }
 
         $product = new Product();
+        
         $base = $baseRepository->find($baseId);
+        
+        $product->setPrice($base->getPrice());
+
         foreach($base->getPlaces() as $place){
         $source = new Source();
         $source->setPlace($place);
         //$source->setProduct($product);
         $product->addSource($source);
         }
+
+
+
         
         $form = $this->createForm(ProductType::class, $product);
         $formTwo = $this->createForm(ProductType::class, $product);
@@ -94,9 +113,17 @@ class ProductController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             //$productRepository->add($product);
+            /*foreach($base->getPlaces() as $place) {
+            $photo = new Photo();
+            $place->setPhoto($photo);
+            }*/
+            $product->setPrice($base->getPrice());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
             $entityManager->flush();
+            $product->setSku($baseId . '-' . $product->getId());
+            $entityManager->flush();
+            
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
         
@@ -134,7 +161,7 @@ class ProductController extends AbstractController
 
         return $this->renderForm('product/edit.html.twig', [
             'product' => $product,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 
@@ -148,5 +175,26 @@ class ProductController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_product_index');
+    }
+
+    /**
+     * @Route("/orders/opt", name="app_order_index", methods={"GET"})
+     */
+    public function orders(Request $request, OrderRepository $ordersRepository): Response
+    {
+        
+        return $this->render('order/index.html.twig', [
+            'orders' => $ordersRepository->findAll()
+        ]);
+    }
+
+    /**
+     * @Route("/order/show/{id}", name="order_show", methods={"GET"})
+     */
+    public function showOrder(Order $order, OrderRepository $orderRepository): Response
+    {
+        return $this->render('order/show.html.twig', [
+            'order' => $orderRepository->find($order)
+        ]);
     }
 }

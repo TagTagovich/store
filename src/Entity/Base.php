@@ -29,14 +29,20 @@ class Base
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      * 
      * @Assert\NotBlank(message = "Поле не может быть пустым!")
      */
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity=Place::class, mappedBy="base", orphanRemoval=true, cascade={"persist"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     */
+    private $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Place", mappedBy="base", orphanRemoval=true, cascade={"persist"})
      * @Assert\Valid() 
      */
     private $places;
@@ -63,20 +69,32 @@ class Base
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 
         return $this;
     }
 
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     /**
-     * @return Collection<int, Place>
+     * @return Collection|Place[]
      */
     public function getPlaces(): Collection
     {

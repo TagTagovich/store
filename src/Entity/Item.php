@@ -19,7 +19,13 @@ class Item
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     */
+    private $sku = null;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     private $price;
 
@@ -43,12 +49,24 @@ class Item
         return $this->id;
     }
 
-    public function getPrice(): ?int
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    public function setSku(?string $sku): self
+    {
+        $this->sku = $sku;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
-    public function setPrice(?int $price): self
+    public function setPrice(?string $price): self
     {
         $this->price = $price;
 

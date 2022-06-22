@@ -25,6 +25,12 @@ class Photo
      */
     private $file;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Place", mappedBy="photo")
+     * 
+     */
+    private $place;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -39,6 +45,18 @@ class Photo
     {
         $this->file = $file;
 
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
+        //$this->place->setPhoto($this);
         return $this;
     }
 }

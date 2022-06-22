@@ -1,0 +1,44 @@
+{% block vich_file_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock %}
+
+{% block vich_file_widget %}
+        <div class="custom-file">
+            {{ form_widget(form.file, {attr:{class:'custom-file-input'}}) }}
+            {% if form.delete is defined %}
+                {{ form_row(form.delete) }}
+            {% endif %}
+
+            {% if download_uri %}
+                <a class="btn btn-secondary" href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
+            {% endif %}
+        </div>
+{% endblock %}
+
+{% block vich_image_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock %}
+
+{% block vich_image_widget %}
+        <div class="custom-file">
+            {{ form_widget(form.file, {attr:{class:'custom-file-input'}}) }}
+            {% if form.delete is defined %}
+                {{ form_row(form.delete) }}
+            {% endif %}
+
+            {% if image_uri %}
+                <a href="{{ image_uri }}"><img class="minimized" src="{{ image_uri }}" alt="" /></a>
+            {% endif %}
+            {% if download_uri %}
+                <a class="btn btn-secondary" href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
+            {% endif %}
+        </div>
+{% endblock %}
+
+{% block form_row %}
+    {{ block('form_label') }}
+    {{ block('form_errors') }}
+    {{ block('form_widget') }}
+{% endblock %}

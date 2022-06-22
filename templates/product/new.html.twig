@@ -4,7 +4,9 @@
 {% form_theme form.sources 'form/block_collection.html.twig' %}
 {% block body %}
     <h1>Создать новый товар</h1>
-
+    {#{{ form_row(form.name, { 'label': 'foo' }) }}#}
+    
+    {{ form_row(form.price, { 'attr':{'disabled':'disabled'} }) }}
     {{ include('product/_form.html.twig') }}
     
     {% set indexOpt = 0 %}

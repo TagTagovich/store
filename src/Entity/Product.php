@@ -26,7 +26,18 @@ class Product
      * @Assert\NotBlank(message = "Поле не может быть пустым!")
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     */
+    private $sku = null;
     
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $price;
+
     /**
      * @ORM\OneToMany(targetEntity=Source::class, mappedBy="product", cascade={"persist", "remove"})
      * @Assert\Valid()
@@ -58,6 +69,30 @@ class Product
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSku(): ?string
+    {
+        return $this->sku;
+    }
+
+    public function setSku(?string $sku): self
+    {
+        $this->sku = $sku;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

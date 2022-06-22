@@ -6,7 +6,9 @@
         {{- form_widget(form) -}}
         {{- form_errors(form) -}}
         {% if route == "app_base_new" or route == "app_base_edit" %}
+        
         <button type="button" class="add-entry btn btn-secondary" style=""><i class="fas fa-plus"></i> Добавить</button>
+       
         {% endif %}
     </div>
 {% endblock collection_row %}
@@ -14,8 +16,7 @@
 {% block _base_places_entry_row %}
 {% set route = app.request.attributes.get('_route') %}
 <div class="item">
-        {% if route == "app_base_new" or route == "app_base_edit" %}
-           
+        {% if route == "app_base_new" or route == "app_base_edit" %} 
            <label for="place_name" class="required">Наименование области</label>
            {{ form_widget(form.name) }} {{ form_errors(form.name) }}
            <label for="place_width" class="required">Ширина</label>
@@ -23,9 +24,12 @@
            <label for="place_height" class="required">Высота</label>
            {{ form_widget(form.height) }} {{ form_errors(form.height) }}
            <label for="place_image" class="required">Фото</label>
+           
            {{ form_widget(form.image) }} {{ form_errors(form.image) }}
-        
+        <div class="form-group">
+        <br>
         <a href="#" class="btn btn-danger remove-collection-entry"><i class="fas fa-trash"></i> Удалить</a>
+        </div>
         </div>
         {% endif %}
 {% endblock %}

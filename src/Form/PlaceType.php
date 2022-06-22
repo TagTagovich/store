@@ -6,6 +6,7 @@ use App\Entity\Place;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
@@ -15,12 +16,14 @@ class PlaceType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'Наименование области'])
-            ->add('width', TextType::class, ['label' => 'Ширина области'])
-            ->add('height', TextType::class, ['label' => 'Высота области'])
+            ->add('width', TextType::class)
+            ->add('height', TextType::class)
+            //->add('startX', TextType::class)
+            //->add('startY', TextType::class)
             ->add('image', VichImageType::class, [
                  'label' => 'Фото',
                  'required' => false,
-                 'download_label' => 'Скачать файл',
+                 'download_label' => false,
                  'allow_delete' => false,
                  'delete_label' => 'Удалить файл'
                  ])

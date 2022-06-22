@@ -8,3 +8,7 @@ $(document).ready(function() {
 
 	});
 });
+	//$(".add-entry").wrap( "<div class='btn-group'></div>" );
+	//$(".remove-collection-entry").wrap( "<div class='btn-group'></div>" );
+
+

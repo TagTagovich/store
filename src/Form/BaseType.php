@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BaseType extends AbstractType
@@ -17,6 +18,14 @@ class BaseType extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Наименование базы'])
             ->add('price', TextType::class, ['label' => 'Цена'])
+            ->add('status', ChoiceType::class, [
+                'label' => 'Статус',
+                'choices' => [
+                    'Новый' => 'new',
+                    'Готова к продаже' => 'ready',
+                    'Выключена' => 'disabled'
+                ]
+            ])
             ->add('places', CollectionType::class, [
              'label' => false,
              'entry_type' => PlaceType::class,

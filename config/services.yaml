@@ -4,6 +4,16 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    app.entity_checking: 'Place'
+    app.entity_additional: 'Base'
+    app.file_directory: '%kernel.project_dir%/public/files/downloads/'
+    app.place_file_directory: '%kernel.project_dir%/public/files/places/'
+    app.source_file_directory: '%kernel.project_dir%/public/files/sources/'
+    app.tmp_file_directory: '%kernel.project_dir%/public/files/tmp/'
+    app.photo_file_directory: '%kernel.project_dir%/public/files/photos/'
+    app.name_mystore: 'SOME_NAME'
+    app.url_mystore: ''
+    app.import_yml_directory: '%kernel.project_dir%/public/import/yml'
 
 services:
     # default configuration for services in *this* file
@@ -22,3 +32,62 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\EventListener\BaseChangedNotifier:
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+                event: 'postUpdate'
+                method: 'postUpdate'
+                lazy: true
+                # listeners can define their priority in case multiple subscribers or listeners are associated
+                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+                priority: 500
+
+    App\EventListener\PhotoGeneratorUpdate:
+        arguments:
+            $placeFileDirectory: '%app.place_file_directory%'
+            $sourceFileDirectory: '%app.source_file_directory%'
+            $tmpFileDirectory: '%app.tmp_file_directory%'
+            $photoFileDirectory: '%app.photo_file_directory%'
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+                event: 'postUpdate'
+                method: 'postUpdate'
+                lazy: true
+                # listeners can define their priority in case multiple subscribers or listeners are associated
+                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+                priority: 500
+    App\EventListener\PhotoGeneratorCreate:
+        arguments:
+            $photoFileDirectory: '%app.photo_file_directory%'
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+                event: 'postPersist'
+                method: 'postPersist'
+                lazy: true
+                # listeners can define their priority in case multiple subscribers or listeners are associated
+                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+                priority: 500
+    App\EventListener\ProductSkuGeneratorUpdate:
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+                event: 'postUpdate'
+                method: 'postUpdate'
+                lazy: true
+                # listeners can define their priority in case multiple subscribers or listeners are associated
+                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+                priority: 500
+    App\Service\ImportYML:
+        arguments:
+            $nameMyStore: '%app.name_mystore%'
+            $fileDirectory: '%app.file_directory%'
+            $importDirectory: '%app.import_yml_directory%'
+
+

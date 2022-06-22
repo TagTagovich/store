@@ -26,6 +26,7 @@ class ProductType extends AbstractType
              'prototype'  => true,
              'by_reference' => false
             ])
+            ->add('price', TextType::class, ['label' => 'Цена'])
         ;
     }
 

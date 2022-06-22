@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @Vich\Uploadable
@@ -21,40 +23,61 @@ class Place
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message = "Поле не может быть пустым!")
+     * 
+     * 
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     *
+     */ 
+    private $startX = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     */ 
+    private $startY = 0;
+
+    /**
+     * @ORM\Column(type="integer")
      * @Assert\NotBlank(message = "Поле не может быть пустым!")
+     * 
      */
     private $width;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message = "Поле не может быть пустым!")
+     * 
      */
     private $height;
-
+    
+    //ORM\JoinColumn(name="base_id", referencedColumnName="id", onDelete="SET NULL")
+    
     /**
-     * @ORM\ManyToOne(targetEntity=Base::class, inversedBy="places")
-     * @ORM\JoinColumn(name="base_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Base", inversedBy="places")
+     * 
      */
     private $base;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * 
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $imageFilename;
     
@@ -63,7 +86,7 @@ class Place
      *
      * @var File
      * 
-     * @Assert\NotBlank(message = "Поле не может быть пустым!")
+     * 
      */
     private $image;
 
@@ -72,6 +95,12 @@ class Place
      *  
      */
     private $sources;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Photo", inversedBy="place", cascade={"persist"})
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
+     */
+    private $photo;
 
     public function __construct()
     {
@@ -131,6 +160,30 @@ class Place
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStartX(): ?int
+    {
+        return $this->startX;
+    }
+
+    public function setStartX(int $startX): self
+    {
+        $this->startX = $startX;
+
+        return $this;
+    }
+
+    public function getStartY(): ?int
+    {
+        return $this->startY;
+    }
+
+    public function setStartY(int $startY): self
+    {
+        $this->startY = $startY;
 
         return $this;
     }

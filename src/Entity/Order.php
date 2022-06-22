@@ -31,7 +31,12 @@ class Order
     private $created;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="ordering")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    private $amount;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="ordering", cascade={"persist"})
      */
     private $items;
 
@@ -74,6 +79,18 @@ class Order
         return $this;
     }
 
+    public function getAmount(): ?string
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(string $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Item>
      */
@@ -86,7 +103,7 @@ class Order
     {
         if (!$this->items->contains($item)) {
             $this->items[] = $item;
-            $item->setOrdering($this);
+            $item->setOrder($this);
         }
 
         return $this;
@@ -96,8 +113,8 @@ class Order
     {
         if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)
-            if ($item->getOrdering() === $this) {
-                $item->setOrdering(null);
+            if ($item->getOrder() === $this) {
+                $item->setOrder(null);
             }
         }
 
