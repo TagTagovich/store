@@ -60,6 +60,11 @@
          canvas.setBackgroundImage(imgUrl, canvas.renderAll.bind(canvas));
          //fabric.Object.prototype.selectionBackgroundColor = 'rgba(45,207,171,0.25)';
 
+    
+
+
+
+
          /*canvas.on('object:selected', function (e) {
          e.target.transparentCorners = false;
          e.target.borderColor = '#cccccc';
