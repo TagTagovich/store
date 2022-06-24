@@ -13,7 +13,7 @@ parameters:
     app.photo_file_directory: '%kernel.project_dir%/public/files/photos/'
     app.name_mystore: 'SOME_NAME'
     app.url_mystore: ''
-    app.import_yml_directory: '%kernel.project_dir%/public/import/yml'
+    app.import_yml_directory: '%kernel.project_dir%/public/import/yml/'
 
 services:
     # default configuration for services in *this* file

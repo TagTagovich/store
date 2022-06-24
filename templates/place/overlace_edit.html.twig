@@ -6,14 +6,10 @@
 <div class="card">
 	<div class="card-body">
 	<div id="vichImg" data-path-vich-img="{{ vich_uploader_asset(place, 'image') }}"></div>
-	
-
 	<canvas id="canvas"></canvas>
-
-
-<div id="path-to-controller" data-href="{{ path('app_overlace_save', {'id': place.id, startX: 'startX', startY: 'startY', width: 'width', height: 'height'}) }}"></div>
-<button class="btn btn-primary" id="saveOverlace" style="max-width: 200px">Сохранить наложение</button>
-<a href="{{ path('app_place_edit', {base: base.id, id: place.id}) }}"><button class="btn btn-success" id="saveOverlace">Продолжить</button></a>
+	<div id="path-to-controller" data-href="{{ path('app_overlace_save', {'id': place.id, startX: 'startX', startY: 'startY', width: 'width', height: 'height'}) }}"></div>
+		<button class="btn btn-primary" id="saveOverlace" style="max-width: 200px">Сохранить наложение</button>
+			<a href="{{ path('app_place_edit', {base: base.id, id: place.id}) }}"><button class="btn btn-success">Продолжить</button></a>
 	</div>
 </div>
 

@@ -26,7 +26,7 @@ class ImportYML
 		$this->importDirectory = $importDirectory;
     }
 
-    public function create()
+    public function create(/*Product $product, bool $status*/)
     {
     	$xml = new DOMDocument("1.0", "utf-8");
     	
@@ -58,24 +58,51 @@ class ImportYML
     	$products = $this->em->getRepository(Product::class)->findAll();
 
     	for ($i=0; $i < count($products); $i++) { 
-    		    $xml_offer = $xml->createElement("offer");
-    			$xml_offer->setAttribute("id", $products[$i]->getSku());
-    			$xml_offers->appendChild($xml_offer);
-    			$xml_name = $xml->createElement("name", $products[$i]->getName());
-    			$xml_offer->appendChild($xml_name);
-    			$xml_picture = $xml->createElement("picture");
-    			$xml_offer->appendChild($xml_name);
-				$xml_description = $xml->createElement("description");
-    			$xml_offer->appendChild($xml_description);
-    			$xml_categoryId = $xml->createElement("categoryId");
-    			$xml_offer->appendChild($xml_categoryId);
-    			$xml_vendor = $xml->createElement("vendor", $products[$i]->getAuthor());
-    			$xml_offer->appendChild($xml_vendor);
-    			$xml_price = $xml->createElement("price", $products[$i]->getPrice());
-    			$xml_offer->appendChild($xml_price);
+    		   $xml_offer = $xml->createElement("offer");
+    		$xml_offer->setAttribute("id", $products[$i]->getSku());
+    		$xml_offers->appendChild($xml_offer);
+    		$xml_name = $xml->createElement("name", $products[$i]->getName());
+    		$xml_offer->appendChild($xml_name);
+    		$xml_picture = $xml->createElement("picture");
+    		$xml_offer->appendChild($xml_name);
+			$xml_description = $xml->createElement("description");
+    		$xml_offer->appendChild($xml_description);
+    		$xml_categoryId = $xml->createElement("categoryId");
+    		$xml_offer->appendChild($xml_categoryId);
+    		$xml_vendor = $xml->createElement("vendor", $products[$i]->getAuthor());
+    		$xml_offer->appendChild($xml_vendor);
+    		$xml_price = $xml->createElement("price", $products[$i]->getPrice());
+    		$xml_offer->appendChild($xml_price);
 		}
 
-    	$xml->save($this->fileDirectory . 'new.xml');
+    	$xml->save($this->importDirectory . 'new.xml');
+    }
+
+    public function update(Product $product)
+    {
+    	$xml = new DOMDocument("1.0", "utf-8");
+		$xml->load($this->importDirectory . 'new.xml');
+		$xml_offers = $xml->getElementsByTagName('offers');
+		
+		$product = $this->em->getRepository(Product::class)->find($product); 
+			
+		$xml_offer = $xml->createElement("offer");
+    	$xml_offer->setAttribute("id", $product->getSku());
+    	$xml_offers->appendChild($xml_offer);
+    	$xml_name = $xml->createElement("name", $product->getName());
+    	$xml_offer->appendChild($xml_name);
+    	$xml_picture = $xml->createElement("picture");
+    	$xml_offer->appendChild($xml_name);
+		$xml_description = $xml->createElement("description");
+    	$xml_offer->appendChild($xml_description);
+    	$xml_categoryId = $xml->createElement("categoryId");
+    	$xml_offer->appendChild($xml_categoryId);
+    	$xml_vendor = $xml->createElement("vendor", $product->getAuthor());
+    	$xml_offer->appendChild($xml_vendor);
+    	$xml_price = $xml->createElement("price", $product->getPrice());
+    	$xml_offer->appendChild($xml_price);
+		
+		$xml->save($this->importDirectory . 'new.xml');
     }
 }
 

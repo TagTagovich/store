@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @Route("/product")
@@ -62,7 +63,7 @@ class ProductController extends AbstractController
         if($request->query->get('q')){
             $qbProduct->andWhere('p.name like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
         }
-        $opt = $this->serviceImportYML->create();
+        //$opt = $this->serviceImportYML->create();
         return $this->render('product/index.html.twig', [
             'productByBases' => $productByBase,
             'products' => $qbProduct->getQuery()->getResult(),
@@ -123,6 +124,15 @@ class ProductController extends AbstractController
             $entityManager->flush();
             $product->setSku($baseId . '-' . $product->getId());
             $entityManager->flush();
+            $fs = new Filesystem();
+            $pathToFileYML = $this->getParameter('app.import_yml_directory') . 'new.xml';
+            $isFile = $fs->readlink($pathToFileYML, true);
+            if ($isFile) {
+                $this->serviceImportYML->update($product);  
+            } else {
+                $this->serviceImportYML->create();
+            }
+            
             
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
