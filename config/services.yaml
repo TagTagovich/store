@@ -14,6 +14,7 @@ parameters:
     app.name_mystore: 'SOME_NAME'
     app.url_mystore: ''
     app.import_yml_directory: '%kernel.project_dir%/public/import/yml/'
+    app.import_product_file_name: 'import_products.xml'
 
 services:
     # default configuration for services in *this* file
@@ -62,6 +63,9 @@ services:
                 priority: 500
     App\EventListener\PhotoGeneratorCreate:
         arguments:
+            $placeFileDirectory: '%app.place_file_directory%'
+            $sourceFileDirectory: '%app.source_file_directory%'
+            $tmpFileDirectory: '%app.tmp_file_directory%'
             $photoFileDirectory: '%app.photo_file_directory%'
         tags:
             -
@@ -89,5 +93,6 @@ services:
             $nameMyStore: '%app.name_mystore%'
             $fileDirectory: '%app.file_directory%'
             $importDirectory: '%app.import_yml_directory%'
+            $importProductFileName: '%app.import_product_file_name%'
 
 

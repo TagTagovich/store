@@ -97,7 +97,7 @@ class Place
     private $sources;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Photo", inversedBy="place", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Photo", inversedBy="place")
      * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
      */
     private $photo;

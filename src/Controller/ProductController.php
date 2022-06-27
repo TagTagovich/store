@@ -63,7 +63,7 @@ class ProductController extends AbstractController
         if($request->query->get('q')){
             $qbProduct->andWhere('p.name like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
         }
-        //$opt = $this->serviceImportYML->create();
+
         return $this->render('product/index.html.twig', [
             'productByBases' => $productByBase,
             'products' => $qbProduct->getQuery()->getResult(),
@@ -104,9 +104,6 @@ class ProductController extends AbstractController
         //$source->setProduct($product);
         $product->addSource($source);
         }
-
-
-
         
         $form = $this->createForm(ProductType::class, $product);
         $formTwo = $this->createForm(ProductType::class, $product);
@@ -125,12 +122,12 @@ class ProductController extends AbstractController
             $product->setSku($baseId . '-' . $product->getId());
             $entityManager->flush();
             $fs = new Filesystem();
-            $pathToFileYML = $this->getParameter('app.import_yml_directory') . 'new.xml';
+            $pathToFileYML = $this->getParameter('app.import_yml_directory') . $this->getParameter('app.import_product_file_name');
             $isFile = $fs->readlink($pathToFileYML, true);
             if ($isFile) {
-                $this->serviceImportYML->update($product);  
+                $this->serviceImportYML->addOffer($product);
             } else {
-                $this->serviceImportYML->create();
+                $this->serviceImportYML->createTemplate();
             }
             
             
@@ -166,6 +163,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $productRepository->add($product);
+            $this->serviceImportYML->replaceOffer($product); 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -180,10 +178,16 @@ class ProductController extends AbstractController
      */
     public function delete(Request $request, Product $product): Response
     {
+        $productSku = $product->getSku();
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($product);
         $entityManager->flush();
-
+        $fs = new Filesystem();
+        $pathToFileYML = $this->getParameter('app.import_yml_directory') . $this->getParameter('app.import_product_file_name');
+        $isFile = $fs->readlink($pathToFileYML, true);
+        if ($isFile) {
+            $this->serviceImportYML->removeOffer($productSku);
+        }
         return $this->redirectToRoute('app_product_index');
     }
 
