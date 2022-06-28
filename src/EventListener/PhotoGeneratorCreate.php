@@ -4,6 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\Photo;
 use App\Entity\Source;
+use App\Entity\Place;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Filesystem\Filesystem;
 use Imagick;
@@ -59,7 +60,11 @@ class PhotoGeneratorCreate
 
                 $photo = new Photo();
                 $photo->setFile('photo_' . $entity->getId() . '_' . $entity->getPlace()->getId() . '.png');
+
                 $entityManager->persist($photo);
+                $entityManager->flush();
+                $place = $entityManager->getRepository(Place::class)->find($entity->getPlace());
+                $place->setPhoto($photo);               
                 $entityManager->flush();
             }
     }

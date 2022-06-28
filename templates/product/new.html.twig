@@ -11,7 +11,7 @@
     
     {% set indexOpt = 0 %}
     {% for source in form.sources %}
-    <label class="custom-place-label" id="{{ indexOpt }}">{{ source.vars.data.place.name }}</label>
+    <label class="custom-place-label" id="{{ indexOpt }}">Макет на область: {{ source.vars.data.place.name }}</label>
     {% set indexOpt = indexOpt + 1%}
     {% endfor %}
 

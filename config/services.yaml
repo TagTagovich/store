@@ -77,6 +77,19 @@ services:
                 # listeners can define their priority in case multiple subscribers or listeners are associated
                 # to the same event (default priority = 0; higher numbers = listener is run earlier)
                 priority: 500
+    App\EventListener\SourceFileRemove:
+        arguments:
+            $sourceFileDirectory: '%app.source_file_directory%'
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+                event: 'onFlush'
+                method: 'onFlush'
+                lazy: true
+                # listeners can define their priority in case multiple subscribers or listeners are associated
+                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+                priority: 500
     App\EventListener\ProductSkuGeneratorUpdate:
         tags:
             -

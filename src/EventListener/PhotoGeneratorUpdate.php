@@ -54,10 +54,9 @@ class PhotoGeneratorUpdate
 
                 $src1->compositeImage($src2, imagick::COMPOSITE_MULTIPLY, $startX, $startY);
                 $src1->writeImage($this->photoFileDirectory . 'photo_' . $source->getId() . '_' . $source->getPlace()->getId() . '.png');
-                $fs = new Filesystem();
-                $fs->remove([$this->tmpFileDirectory . 'tmp_source_' . $source->getId() . '.png']);
-
                 $entityManager->flush();
+                
+
             }
     }
 }

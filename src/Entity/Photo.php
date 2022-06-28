@@ -26,7 +26,7 @@ class Photo
     private $file;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Place", mappedBy="photo", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Place", mappedBy="photo")
      * 
      */
     private $place;

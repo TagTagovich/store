@@ -69,13 +69,17 @@
       //console.log(objectScaleWidth);
       $.ajax({
          url : $("#path-to-controller").data("href"),
-         type: "GET",
+         type : "GET",
          data : {
          'startX' : objectScaleLeft,
          'startY' : objectScaleTop,
          'width'  : objectScaleWidth,
          'height' : objectScaleHeight
-         }  
-      });         
-   };             
-
+         }
+      }).done(function() {
+            alert('Область c координатами наложения макета:\n\r' + ' StartX - ' + objectScaleLeft + '\n\r StartY - ' + objectScaleTop + '\n\r Width - ' + objectScaleWidth + '\n\r Height - ' + objectScaleHeight + '\n\rУспешно обновлена!');
+         });   
+   }      
+      
+            
+            
