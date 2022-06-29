@@ -98,7 +98,7 @@ class Place
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Photo", inversedBy="place")
-     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $photo;
 

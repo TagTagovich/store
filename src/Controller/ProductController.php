@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Place;
 use App\Entity\Source;
 use App\Entity\Photo;
 use App\Entity\Order;
@@ -18,6 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+//use Vich\UploaderBundle\Handler\UploadHandler;
 
 /**
  * @Route("/product")
@@ -37,7 +40,9 @@ class ProductController extends AbstractController
      */
     public function index(Request $request, ProductRepository $productRepository, BaseRepository $baseRepository, PlaceRepository $placeRepository, SourceRepository $sourceRepository): Response
     {
-        
+        $finder = new Finder();
+        $fs = new Filesystem();
+        $fs->remove($finder->files()->in($this->getParameter('app.tmp_file_directory')));
         $qbProduct = $productRepository->createQueryBuilder('p');
         $qbBase = $placeRepository->createQueryBuilder('p');
 
@@ -76,39 +81,31 @@ class ProductController extends AbstractController
      */
     public function new(Request $request, ProductRepository $productRepository, BaseRepository $baseRepository, PlaceRepository $placeRepository, int $baseId): Response
     {
+        
         $qbBase = $placeRepository->createQueryBuilder('p');
-
         if($baseId){
             $qbBase
                 ->select('p.name')
                 ->where('p.base = :id')
                 ->setParameter('id', $baseId);
         }
-
         $placesNames = [];
         foreach($qbBase->getQuery()->getResult() as $value){
-            
             $placesNames[] = $value['name'];
-            
         }
-
         $product = new Product();
-        
         $base = $baseRepository->find($baseId);
-        
         $product->setPrice($base->getPrice());
-
         foreach($base->getPlaces() as $place){
-        $source = new Source();
-        $source->setPlace($place);
-        //$source->setProduct($product);
-        $product->addSource($source);
+            $source = new Source();
+            $source->setPlace($place);
+            //$source->setProduct($product);
+            $product->addSource($source);
         }
         
         $form = $this->createForm(ProductType::class, $product);
         $formTwo = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-        
         if ($form->isSubmitted() && $form->isValid()) {
             //$productRepository->add($product);
             /*foreach($base->getPlaces() as $place) {
@@ -129,8 +126,6 @@ class ProductController extends AbstractController
             } else {
                 $this->serviceImportYML->createTemplate();
             }
-            
-            
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
         
@@ -181,6 +176,16 @@ class ProductController extends AbstractController
         $productSku = $product->getSku();
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($product);
+        $source = $entityManager->getRepository(Source::class)->findByProduct($product);
+        for ($i=0; $i < count($source) ; $i++) { 
+            $place = $entityManager->getRepository(Place::class)->find($source[$i]->getPlace());
+            $photo = $entityManager->getRepository(Photo::class)->find($place->getPhoto());            
+            $entityManager->remove($photo);
+        }
+        //$uploadHandler = new UploadHandler();
+        /*$this->uploadHandler->remove($source[0], 'file');
+        //$staff->setImageFile($file);
+        //$uploadHandler->upload($staff, 'imageFile');*/
         $entityManager->flush();
         $fs = new Filesystem();
         $pathToFileYML = $this->getParameter('app.import_yml_directory') . $this->getParameter('app.import_product_file_name');

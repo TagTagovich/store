@@ -50,7 +50,7 @@ class Source
     private $product;
     
     /**
-     * @ORM\ManyToOne(targetEntity=Place::class)
+     * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="sources")
      * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
      */
     private $place;

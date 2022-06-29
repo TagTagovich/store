@@ -10,7 +10,6 @@ use Symfony\Component\Filesystem\Filesystem;
 class SourceFileRemove
 {
 
-
     private $sourceFileDirectory;
 
     public function __construct(string $sourceFileDirectory)
