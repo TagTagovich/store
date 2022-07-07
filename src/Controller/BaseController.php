@@ -28,7 +28,7 @@ class BaseController extends AbstractController
     {
         $qb = $baseRepository->createQueryBuilder('b');
 
-        if($request->query->get('q')){
+        if ($request->query->get('q')) {
             $qb->andWhere('b.name like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
         }
         
@@ -37,6 +37,8 @@ class BaseController extends AbstractController
             
         }
         $places = $doctrine->getRepository(Place::class)->findByBase(40);
+
+        
         
         //$places = $base->getPlaces();
 
@@ -59,11 +61,11 @@ class BaseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $baseRepository->add($base);
-            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+            $place = $placeRepository->findBy(['base' => $base]);
 
-        return $this->redirectToRoute('app_base_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_base_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('base/new.html.twig', [
@@ -91,11 +93,11 @@ class BaseController extends AbstractController
         
         $form = $this->createForm(BaseType::class, $base);
         $form->handleRequest($request);
-        //dump($base->getPlaces());
         if ($form->isSubmitted() && $form->isValid()) {
             $baseRepository->add($base);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+            
             return $this->redirectToRoute('app_base_index', [], Response::HTTP_SEE_OTHER);
         }
 

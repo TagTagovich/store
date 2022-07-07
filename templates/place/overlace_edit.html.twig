@@ -2,18 +2,23 @@
 
 {% block title %} Редактировать фото области {% endblock %}
 
+
+
 {% block body %}
 <div class="card">
 	<div class="card-body">
 	<div id="vichImg" data-path-vich-img="{{ vich_uploader_asset(place, 'image') }}"></div>
 	<canvas id="canvas"></canvas>
-	<div id="path-to-controller" data-href="{{ path('app_overlace_save', {'id': place.id, startX: 'startX', startY: 'startY', width: 'width', height: 'height'}) }}"></div>
+	<div id="path-to-controller-save" data-href="{{ path('app_overlace_save', {getting: 'getting', 'id': place.id, startX: 'startX', startY: 'startY', width: 'width', height: 'height'}) }}"></div>
+	<div id="path-to-controller-get" data-href="{{ path('app_rectangle_get', {'id': place.id}) }}"></div>
 		<button class="btn btn-primary" id="saveOverlace" style="max-width: 200px">Сохранить наложение</button>
-			<a href="{{ path('app_place_index', {'id': base.id}) }}"><button class="btn btn-success">Продолжить</button></a>
+		<a href="{{ path('app_place_index', {'id': base.id}) }}"><button class="btn btn-success">Продолжить</button></a>
 	</div>
 </div>
 
-{% endblock %}	
+{% endblock %}
+
+
 
 
 

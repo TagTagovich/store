@@ -27,17 +27,32 @@
                    
                 </tbody>
             </table>
-                    <table class="table table-striped">
+                <table class="table table-striped">
                 <tbody>
                     {% for source in sources %}
-                    
                     <tr>
-                        <th><p class="text-dark">Наименование файла</p></th>
+                        <th><p class="text-dark">Наименование макета</p></th>
                         <td><p class="text-dark">{{ source.fileName }}</p></td>
                     </tr>
                     <tr>
                         <th>Файл</th>
                         <td><img class="card-img-top" src="{{ vich_uploader_asset(source, 'file', 'App\\Entity\\Source') }}" alt="{{ source.fileName }}" style="max-width: 200px">   
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <tbody>
+                    {% for photo in photos %}
+                    
+                    <tr>
+                        <th><p class="text-dark">Наименование фото</p></th>
+                        <td><p class="text-dark">{{ photo.file }}</p></td>
+                    </tr>
+                    <tr>
+                        <th>Файл</th>
+                        <td><img src="{{ asset('/files/photos/' ~ photo.file) }}" style="max-width: 200px" />   
                         </td>
                     </tr>
                 

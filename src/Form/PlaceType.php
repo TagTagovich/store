@@ -27,6 +27,7 @@ class PlaceType extends AbstractType
                  'allow_delete' => false,
                  'delete_label' => 'Удалить файл'
                  ])
+            //->add('dpi', TextType::class)
         ;
     }
 

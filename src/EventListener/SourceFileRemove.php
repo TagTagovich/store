@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Entity\Source;
 use App\Entity\Place;
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Filesystem\Filesystem;
 
 class SourceFileRemove

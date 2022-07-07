@@ -24,9 +24,8 @@ class OrderController extends AbstractController
     {
         $data = json_decode($request->query->get('json'), true);
         if (!empty($data)) {
-            $dataToPHPArrray = [];
+            $dataToPHPArray = [];
             $order = new Order();
-            //$order->setId($data["id"]);
             $order->setNumber($data["number"]);
             $order->setAmount($data["sum"]);
             $order->setCreated($data["date"]);

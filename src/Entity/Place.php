@@ -52,7 +52,7 @@ class Place
      * @Assert\NotBlank(message = "Поле не может быть пустым!")
      * 
      */
-    private $width;
+    public $width;
 
     /**
      * @ORM\Column(type="integer")
@@ -60,6 +60,12 @@ class Place
      * 
      */
     private $height;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * 
+     */
+    public $dpi = null;
     
     //ORM\JoinColumn(name="base_id", referencedColumnName="id", onDelete="SET NULL")
     
@@ -88,17 +94,17 @@ class Place
      * 
      * 
      */
-    private $image;
+    public $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Source::class, mappedBy="place") 
+     * @ORM\OneToMany(targetEntity=Source::class, mappedBy="place", cascade={"remove"}) 
      *  
      */
     private $sources;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Photo", inversedBy="place")
-     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\OneToOne(targetEntity="App\Entity\Photo", inversedBy="place", cascade={"remove"})
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id")
      */
     private $photo;
 
@@ -208,6 +214,18 @@ class Place
     public function setHeight(int $height): self
     {
         $this->height = $height;
+
+        return $this;
+    }
+
+    public function getDpi(): ?int
+    {
+        return $this->dpi;
+    }
+
+    public function setDpi(int $dpi): self
+    {
+        $this->dpi = $dpi;
 
         return $this;
     }

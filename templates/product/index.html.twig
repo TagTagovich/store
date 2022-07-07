@@ -84,6 +84,8 @@
                     <tr>
                         <td>{{ product.id }}</td>
                         <td>{{ product.name }}</td>
+
+                        {#<td><img src="{{ asset('/files/photos/' ~ photo.file) }}" style="max-width: 200px" /></td>#}
                         
                         <td align="right">
                             <a class="btn btn-info" href="{{ path('app_product_show', {'id': product.id}) }}" title="Посмотреть"><i class="fa fa-eye"></i></a>
@@ -97,7 +99,11 @@
             </table>
         </div>
     </div>
+    
+    
 {% endblock %}
+
+
                 
 
 

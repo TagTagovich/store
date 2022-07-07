@@ -23,8 +23,9 @@
            {{ form_widget(form.width) }} {{ form_errors(form.width) }}
            <label for="place_height" class="required">Высота</label>
            {{ form_widget(form.height) }} {{ form_errors(form.height) }}
+           {#<label for="place_image" class="required">DPI</label>
+           {{ form_widget(form.dpi) }} {{ form_errors(form.dpi) }}#}
            <label for="place_image" class="required">Фото</label>
-           
            {{ form_widget(form.image) }} {{ form_errors(form.image) }}
         <div class="form-group">
         <br>
@@ -37,7 +38,13 @@
 {% block _product_sources_entry_row %}
 <div class="item">
     {{ form_label(form.file, '', {'label_attr': {'class': 'custom-label'}}) }} {{ form_errors(form.file) }}
-    {{ form_widget(form.file) }} 
+    {{ form_widget(form.file) }}
+    {{ form_label(form.width, '') }}
+    {{ form_widget(form.width) }} 
+    {{ form_label(form.height, '') }}
+    {{ form_widget(form.height) }}
+    {#{{ form_label(form.dpi, '') }}
+    {{ form_widget(form.dpi) }}#}  
 </div>
 {% endblock %}
 

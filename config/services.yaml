@@ -11,6 +11,7 @@ parameters:
     app.source_file_directory: '%kernel.project_dir%/public/files/sources/'
     app.tmp_file_directory: '%kernel.project_dir%/public/files/tmp/'
     app.photo_file_directory: '%kernel.project_dir%/public/files/photos/'
+    app.liip_file_directory: '%kernel.project_dir%/public/media/cache/squared_thumbnail_small/files/places/'
     app.name_mystore: 'SOME_NAME'
     app.url_mystore: ''
     app.import_yml_directory: '%kernel.project_dir%/public/import/yml/'
@@ -33,6 +34,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    Liip\ImagineBundle\Service\FilterService:
+        alias: 'liip_imagine.service.filter'
     App\EventListener\BaseChangedNotifier:
         tags:
             -
@@ -119,5 +122,31 @@ services:
             $fileDirectory: '%app.file_directory%'
             $importDirectory: '%app.import_yml_directory%'
             $importProductFileName: '%app.import_product_file_name%'
+#    App\EventListener\PlaceImageResize:
+#        arguments:
+#            $placeFileDirectory: '%app.place_file_directory%'
+#        tags:
+#            -
+#                name: 'doctrine.event_listener'
+#                # this is the only required option for the lifecycle listener tag
+#                event: 'postPersist'
+#                method: 'postPersist'
+#                lazy: true
+#                # listeners can define their priority in case multiple subscribers or listeners are associated
+#                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+#                priority: 500
+#    App\EventListener\SourceImageResize:
+#        arguments:
+#            $sourceFileDirectory: '%app.source_file_directory%'
+#        tags:
+#            -
+#                name: 'doctrine.event_listener'
+#                # this is the only required option for the lifecycle listener tag
+#                event: 'postPersist'
+#                method: 'postPersist'
+#                lazy: true
+#                # listeners can define their priority in case multiple subscribers or listeners are associated
+#                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+#                priority: 600
 
 

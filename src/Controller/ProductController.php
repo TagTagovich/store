@@ -10,6 +10,7 @@ use App\Entity\Order;
 use App\Form\ProductType;
 use App\Service\ImportYML;
 use App\Repository\ProductRepository;
+use App\Repository\PhotoRepository;
 use App\Repository\OrderRepository;
 use App\Repository\BaseRepository;
 use App\Repository\SourceRepository;
@@ -21,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 //use Vich\UploaderBundle\Handler\UploadHandler;
+use Imagick;
 
 /**
  * @Route("/product")
@@ -28,6 +30,7 @@ use Symfony\Component\Finder\Finder;
 class ProductController extends AbstractController
 {
     private $serviceImportYML;
+    private $productPhoto;
 
     public function __construct(ImportYML $serviceImportYML)
     {
@@ -38,20 +41,14 @@ class ProductController extends AbstractController
     /**
      * @Route("/", name="app_product_index", methods={"GET"})
      */
-    public function index(Request $request, ProductRepository $productRepository, BaseRepository $baseRepository, PlaceRepository $placeRepository, SourceRepository $sourceRepository): Response
+    public function index(Request $request, ProductRepository $productRepository, BaseRepository $baseRepository, PlaceRepository $placeRepository, SourceRepository $sourceRepository, PhotoRepository $photoRepository): Response
     {
         $finder = new Finder();
         $fs = new Filesystem();
         $fs->remove($finder->files()->in($this->getParameter('app.tmp_file_directory')));
         $qbProduct = $productRepository->createQueryBuilder('p');
         $qbBase = $placeRepository->createQueryBuilder('p');
-
-        if($baseId = $request->query->get('base')){
-            $qbBase
-                ->join('p.id', 'p')
-                ->where('p.id = :name')
-                ->setParameter('name', $baseId);
-        }
+        $qbPhoto = $photoRepository->createQueryBuilder('p');
 
         if($baseIdOne = $request->query->get('base')){
             $productQuery = $productRepository->createQueryBuilder('p');
@@ -64,16 +61,29 @@ class ProductController extends AbstractController
         $productByBase = $productQuery->getQuery()->getResult();    
 
         } else { $productByBase = null; }
-
+       
         if($request->query->get('q')){
             $qbProduct->andWhere('p.name like :q')->setParameter('q', '%' . $request->query->get('q') . '%');
         }
 
+
         return $this->render('product/index.html.twig', [
             'productByBases' => $productByBase,
             'products' => $qbProduct->getQuery()->getResult(),
-            'baseList' => $baseRepository->findByStatus("ready")
+            'baseList' => $baseRepository->findByStatus("ready"),
+            'photos' => $photoRepository->findAll(),
+            'sources' => $sourceRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/photo/to/{getting}", name="app_product_photo", methods={"GET", "POST"})
+     */
+    public function list(Request $request): Response
+    {
+        $this->productPhoto = $request->query->get("getting");
+        dump($this->productPhoto);
+        return $this->json(['response' => $this->productPhoto]);    
     }
 
     /**
@@ -104,14 +114,8 @@ class ProductController extends AbstractController
         }
         
         $form = $this->createForm(ProductType::class, $product);
-        $formTwo = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //$productRepository->add($product);
-            /*foreach($base->getPlaces() as $place) {
-            $photo = new Photo();
-            $place->setPhoto($photo);
-            }*/
             $product->setPrice($base->getPrice());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
@@ -142,9 +146,19 @@ class ProductController extends AbstractController
      */
     public function show(Product $product, SourceRepository $sourceRepository): Response
     {
+        $sources = $sourceRepository->findBy(['product' => $product]);
+        if (is_array($sources)) {
+            $i = 0;
+            $photos = [];
+            foreach ($sources as $source) {
+               $place = $source->getPlace();
+               $photos[$i++] = $place->getPhoto(); 
+            }            
+        }
         return $this->render('product/show.html.twig', [
             'product' => $product,
-            'sources' => $sourceRepository->findBy(['product' => $product])
+            'sources' => $sources,
+            'photos' => $photos
         ]);
     }
 
@@ -176,16 +190,6 @@ class ProductController extends AbstractController
         $productSku = $product->getSku();
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($product);
-        $source = $entityManager->getRepository(Source::class)->findByProduct($product);
-        for ($i=0; $i < count($source) ; $i++) { 
-            $place = $entityManager->getRepository(Place::class)->find($source[$i]->getPlace());
-            $photo = $entityManager->getRepository(Photo::class)->find($place->getPhoto());            
-            $entityManager->remove($photo);
-        }
-        //$uploadHandler = new UploadHandler();
-        /*$this->uploadHandler->remove($source[0], 'file');
-        //$staff->setImageFile($file);
-        //$uploadHandler->upload($staff, 'imageFile');*/
         $entityManager->flush();
         $fs = new Filesystem();
         $pathToFileYML = $this->getParameter('app.import_yml_directory') . $this->getParameter('app.import_product_file_name');

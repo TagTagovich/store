@@ -7,11 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as Valid;
+use Imagick;
 
 /**
  * @ORM\Entity(repositoryClass=SourceRepository::class)
  * @ORM\Table(name="`source`")
  * @Vich\Uploadable
+ * @Valid\SourceFile
  */
 class Source
 {
@@ -38,13 +41,32 @@ class Source
      *
      * @var File
      *
-     * @Assert\NotBlank(message = "Поле файл не может быть пустым!")
      * 
      */
-    private $file;
+    public $file;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="sources")
+     * @ORM\Column(type="integer")
+     * 
+     */
+    public $width;
+
+    /**
+     * @ORM\Column(type="integer")
+     * 
+     * 
+     */
+    public $height;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * 
+     * 
+     */
+    public $dpi = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="sources", cascade={"remove"})
      * 
      */
     private $product;
@@ -53,7 +75,7 @@ class Source
      * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="sources")
      * @ORM\JoinColumn(name="place_id", referencedColumnName="id")
      */
-    private $place;
+    public $place;
 
     public function getId(): ?int
     {
@@ -124,7 +146,41 @@ class Source
         return $this;
     }
 
+        public function getWidth(): ?int
+    {
+        return $this->width;
+    }
 
+    public function setWidth(int $width): self
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(int $height): self
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    public function getDpi(): ?int
+    {
+        return $this->dpi;
+    }
+
+    public function setDpi(int $dpi): self
+    {
+        $this->dpi = $dpi;
+
+        return $this;
+    }
 
     public function __toString()
     {

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichFileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SourceType extends AbstractType
 {
@@ -21,7 +22,10 @@ class SourceType extends AbstractType
             'allow_delete' => false,
             'delete_label' => 'Удалить файл',
             'asset_helper' => false,
-            ]);
+            ])
+            ->add('width', TextType::class, ['label' => 'Ширина'])
+            ->add('height', TextType::class, ['label' => 'Высота']);
+            //->add('dpi', TextType::class, ['label' => 'DPI']);
             
         
     }
